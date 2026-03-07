@@ -10,7 +10,7 @@ local width = 360
 local length = 480
 local offset = 20
 local boss_pos_x = (width + offset) / 2
-boss_pos_y = (length + offset) / 8
+local boss_pos_y = (length + offset) / 8
 local y = 0
 
 function love.draw()
@@ -35,7 +35,17 @@ function love.draw()
     --]]
 
     -- radiating pattern?
-    love.graphics.circle("line", boss_pos_x, boss_pos_y, (5 + y), 5)
+    -- love.graphics.circle("line", boss_pos_x, boss_pos_y, (5 + y), 5)
+
+    -- simple 4 point expansion
+    love.graphics.points(
+        {
+            { (boss_pos_x + 1) + y, boss_pos_y },
+            { (boss_pos_x - 1) - y, boss_pos_y },
+            { (boss_pos_x),         (boss_pos_y + 1) + y },
+            { (boss_pos_x),         (boss_pos_y - 1) - y }
+        }
+    )
 end
 
 function love.update(dt)
