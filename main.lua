@@ -2,6 +2,9 @@
 -- to do later:
 --      move resolution to conf.lua
 
+-- loading world
+local world = require('world')
+
 -- use percentage of resolution for position of others
 -- allowing variables to be accessed by functions in file
 -- not global. won't get problems with other files with same variable names
