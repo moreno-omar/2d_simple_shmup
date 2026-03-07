@@ -4,6 +4,7 @@
 
 -- loading world
 local world = require('world')
+local bullet = require('bullet')
 
 -- use percentage of resolution for position of others
 -- allowing variables to be accessed by functions in file
@@ -15,6 +16,9 @@ local offset = 20
 local boss_pos_x = (width + offset) / 2
 local boss_pos_y = (length + offset) / 8
 local y = 0
+
+-- get center point of circle bullet
+local bullet_x, bullet_y = bullet.body:getWorldCenter()
 
 function love.draw()
     -- include offset, since 0,0 is top left of screen
@@ -40,7 +44,7 @@ function love.draw()
     -- radiating pattern?
     -- love.graphics.circle("line", boss_pos_x, boss_pos_y, (5 + y), 5)
 
-    -- simple 4 point expansion
+    --[[ simple 4 point expansion
     love.graphics.points(
         {
             { (boss_pos_x + 1) + y, boss_pos_y },
@@ -49,6 +53,10 @@ function love.draw()
             { (boss_pos_x),         (boss_pos_y - 1) - y }
         }
     )
+    -- ]]
+
+
+    love.graphics.circle('fill', bullet_x, (bullet_y + y), 1)
 end
 
 function love.update(dt)
