@@ -5,6 +5,8 @@
 -- loading world
 local world = require('world')
 local bullet = require('bullet')
+local input_movement = require('input')
+local boss = require('boss')
 
 -- use percentage of resolution for position of others
 -- allowing variables to be accessed by functions in file
@@ -56,7 +58,7 @@ function love.draw()
     -- ]]
 
 
-    love.graphics.circle('fill', bullet_x, (bullet_y + y), 1)
+    love.graphics.circle('fill', bullet_x, (bullet_y + y), 10)
 end
 
 function love.update(dt)
@@ -72,4 +74,14 @@ function love.update(dt)
     y = y + (dt * 100)
 
     -- love.graphics.circle("fill", boss_pos_x, (boss_pos_y - 5), 50, 5)
+
+    -- move boss with input
+    function love.keypressed(key)
+        if key == 'left' or key == 'right' then
+            boss_pos_x = boss_pos_x + (dt * input_movement[key] * 100)
+        else  
+            boss_pos_y = boss_pos_y + (dt * input_movement[key] * 100)
+        end
+    end
+
 end
