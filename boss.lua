@@ -17,6 +17,22 @@ boss.shape = love.physics.newCircleShape(0, 0, 10)
 boss.fixture = love.physics.newFixture(boss.body, boss.shape)
 
 
+-- keep boss in border
+boss.begin_contact = function (self, cx, cy)
+    local x, y = cx, cy
+
+    -- simple collision response, move boss back within border
+    if x < 20 then
+        self.body:setPosition(20, y)
+    elseif x > 380 then
+        self.body:setPosition(380, y)
+    elseif y < 20 then
+        self.body:setPosition(x, 20)
+    elseif y > 460 then
+        self.body:setPosition(x, 460)
+    end
+
+end
 
 
 return boss
