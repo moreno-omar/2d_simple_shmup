@@ -7,6 +7,7 @@ local world = require('world')
 local bullet = require('bullet')
 local input_movement = require('input')
 local boss = require('boss')
+local border = require('border')
 
 -- use percentage of resolution for position of others
 -- allowing variables to be accessed by functions in file
@@ -23,17 +24,12 @@ local y = 0
 local bullet_x, bullet_y = bullet.body:getWorldCenter()
 
 function love.draw()
-    -- include offset, since 0,0 is top left of screen
+    --[[ include offset, since 0,0 is top left of screen
     -- dimensions are 360x480
     love.graphics.rectangle("line", 20, 20, 360, 480)
-
-    --[[ use percentage of resolution for position of others
-    width = 360
-    length = 480
-    offset = 20
-    boss__pos_x = (width + offset) / 2
-    boss_pos_y = (length + offset) / 2
     --]]
+    love.graphics.line(border.body:getWorldPoints(border.shape:getPoints()))
+
 
     -- position first 2 after mode, size after those
     -- consider this boss, move to update later
@@ -62,6 +58,10 @@ function love.draw()
 end
 
 function love.update(dt)
+    -- to update world
+    world:update(dt)
+    
+    
     -- necessary for bullets and movement
     -- for easy use, just use default dt
     -- goal: 60 fps

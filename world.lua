@@ -5,7 +5,14 @@
 -- world without gravity
 local world = love.physics.newWorld(0, 0)
 
--- later
--- world:setCallbacks
+-- world:setCallbacks / for collision detection
+-- only do for beginContact
+-- Four Lua functions can be given as arguments. The value nil removes a function. 
+
+function beginContact(a, b, coll)
+    print("Collision detected!")
+end
+
+world:setCallbacks(beginContact, nil, nil, nil)
 
 return world
