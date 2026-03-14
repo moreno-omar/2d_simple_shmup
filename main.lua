@@ -76,12 +76,14 @@ function love.update(dt)
     -- love.graphics.circle("fill", boss_pos_x, (boss_pos_y - 5), 50, 5)
 
     -- move boss with input
-    function love.keypressed(key)
-        if key == 'left' or key == 'right' then
-            boss_pos_x = boss_pos_x + (dt * input_movement[key] * 100)
-        else  
-            boss_pos_y = boss_pos_y + (dt * input_movement[key] * 100)
-        end
+    if love.keyboard.isDown('up') then
+        boss_pos_y = boss_pos_y + (input_movement.up * dt * 100)
+    elseif love.keyboard.isDown('down') then
+        boss_pos_y = boss_pos_y + (input_movement.down * dt * 100)
+    elseif love.keyboard.isDown('left') then
+        boss_pos_x = boss_pos_x + (input_movement.left * dt * 100)
+    elseif love.keyboard.isDown('right') then
+        boss_pos_x = boss_pos_x + (input_movement.right * dt * 100)
     end
 
 end
