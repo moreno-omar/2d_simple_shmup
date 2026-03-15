@@ -13,9 +13,14 @@ boss.body = love.physics.newBody(world, 0, 0, 'dynamic')
 -- easier to do circle than newPolygonShape and adding all those points
 boss.shape = love.physics.newCircleShape(0, 0, 10)
 
--- fix into place
-boss.fixture = love.physics.newFixture(boss.body, boss.shape)
+-- fix into place. Set mass so it can be moved by player input, but not by bullet or border
+boss.fixture = love.physics.newFixture(boss.body, boss.shape, 1)
 
+-- boss.body:setLinearDamping(0)
+
+--[[
+
+Disregard for now.
 
 -- keep boss in border
 boss.begin_contact = function (self, cx, cy)
@@ -33,6 +38,6 @@ boss.begin_contact = function (self, cx, cy)
     end
 
 end
-
+--]]
 
 return boss

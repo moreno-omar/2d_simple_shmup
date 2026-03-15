@@ -20,6 +20,9 @@ local boss_pos_x = (width + offset) / 2
 local boss_pos_y = (length + offset) / 8
 local y = 0
 
+-- Initialize the physics body to the starting position
+boss.body:setPosition(boss_pos_x, boss_pos_y)
+
 -- get center point of circle bullet
 local bullet_x, bullet_y = bullet.body:getWorldCenter()
 
@@ -31,9 +34,9 @@ function love.draw()
     love.graphics.line(border.body:getWorldPoints(border.shape:getPoints()))
 
 
-    -- position first 2 after mode, size after those
-    -- consider this boss, move to update later
-    love.graphics.rectangle("fill", boss_pos_x, boss_pos_y, 5, 5)
+    -- Draw the boss using the physics body coordinates
+    -- We subtract 2.5 to center the 5x5 rectangle on the body's X/Y coordinates
+    love.graphics.rectangle("fill", boss.body:getX() - 2.5, boss.body:getY() - 2.5, 5, 5)
 
     --[[ bullet going straight down
     love.graphics.circle("fill", boss_pos_x, (boss_pos_y + y), 5, 5)
@@ -60,8 +63,8 @@ end
 function love.update(dt)
     -- to update world
     world:update(dt)
-    
-    
+
+
     -- necessary for bullets and movement
     -- for easy use, just use default dt
     -- goal: 60 fps
@@ -72,18 +75,22 @@ function love.update(dt)
     -- move down only, which is adding to total
     -- needs to be multiplied by rate since dt is small
     y = y + (dt * 100)
+    local rate = dt * 5000
 
     -- love.graphics.circle("fill", boss_pos_x, (boss_pos_y - 5), 50, 5)
 
     -- move boss with input
     if love.keyboard.isDown('up') then
-        boss_pos_y = boss_pos_y + (input_movement.up * dt * 100)
+        -- boss_pos_y = boss_pos_y + (input_movement.up * rate)
+        boss.body:setLinearVelocity(0, (input_movement.up * rate))
     elseif love.keyboard.isDown('down') then
-        boss_pos_y = boss_pos_y + (input_movement.down * dt * 100)
+        boss.body:setLinearVelocity(0, input_movement.down * rate)
     elseif love.keyboard.isDown('left') then
-        boss_pos_x = boss_pos_x + (input_movement.left * dt * 100)
+        boss.body:setLinearVelocity(input_movement.left * rate, 0)
     elseif love.keyboard.isDown('right') then
-        boss_pos_x = boss_pos_x + (input_movement.right * dt * 100)
+        boss.body:setLinearVelocity(input_movement.right * rate, 0)
+    else
+        -- Stop movement when no keys are pressed
+        boss.body:setLinearVelocity(0, 0)
     end
-
 end

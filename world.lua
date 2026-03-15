@@ -7,8 +7,11 @@ local world = love.physics.newWorld(0, 0)
 
 -- world:setCallbacks / for collision detection
 -- only do for beginContact
--- Four Lua functions can be given as arguments. The value nil removes a function. 
+-- Four Lua functions can be given as arguments. The value nil removes a function.
 
+-- disregard for now, not the correct way to stop dynamic body against static
+
+--[[
 local function beginContact(a, b, collison)
     -- figure out which fixture is which
     local nameA = a:getUserData()
@@ -29,5 +32,8 @@ local function beginContact(a, b, collison)
 end
 
 world:setCallbacks(beginContact, nil, nil, nil)
+
+
+--]]
 
 return world
